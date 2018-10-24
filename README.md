@@ -2,4 +2,4 @@
 
 ## Usage for tempest testing
 
-./rally-tempest.sh <verifier-id>
+./rally-tempest.sh verifier-id
