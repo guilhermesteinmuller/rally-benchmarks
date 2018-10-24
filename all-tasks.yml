@@ -1,0 +1,954 @@
+{% set flavor_name = flavor_name or "m1.tiny" %}
+{% set resize_flavor_name = resize_flavor_name or "m1.small" %}
+{% set image_name = image_name or "cirros" %}
+{% set volume_type = volume_type or "standard-iops" %}
+#{% set network_id = network_id or "5c5d9010-a1fe-41b2-9813-6d59d88bd102" %}
+--- 
+Authenticate.keystone: 
+  - 
+    runner: 
+      concurrency: 5
+      times: 50
+      type: constant
+    sla: 
+      failure_rate: 
+        max: 0
+Authenticate.validate_cinder: 
+  - 
+    args: 
+      repetitions: 2
+    runner: 
+      concurrency: 5
+      times: 5
+      type: constant
+    sla: 
+      failure_rate: 
+        max: 0
+Authenticate.validate_glance: 
+  - 
+    args: 
+      repetitions: 2
+    runner: 
+      concurrency: 5
+      times: 5
+      type: constant
+    sla: 
+      failure_rate: 
+        max: 0
+Authenticate.validate_heat: 
+  - 
+    args: 
+      repetitions: 2
+    runner: 
+      concurrency: 5
+      times: 5
+      type: constant
+    sla: 
+      failure_rate: 
+        max: 0
+Authenticate.validate_neutron: 
+  - 
+    args: 
+      repetitions: 2
+    runner: 
+      concurrency: 5
+      times: 5
+      type: constant
+    sla: 
+      failure_rate: 
+        max: 0
+Authenticate.validate_nova: 
+  - 
+    args: 
+      repetitions: 2
+    runner: 
+      concurrency: 5
+      times: 5
+      type: constant
+    sla: 
+      failure_rate: 
+        max: 0
+#CinderVolumes.create_and_attach_volume: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#      size: 
+#        max: 3
+#        min: 1
+#    runner: 
+#      concurrency: 1
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_and_delete_snapshot: 
+#  - 
+#    args: 
+#      force: false
+#    context: 
+#      volumes: 
+#        size: 1
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_and_delete_volume: 
+#  - 
+#    args: 
+#      image: 
+#        name: "{{image_name}}"
+#      size: 1
+#    runner: 
+#      concurrency: 2
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_and_extend_volume: 
+#  - 
+#    args: 
+#      new_size: 
+#        max: 10
+#        min: 5
+#      size: 
+#        max: 3
+#        min: 1
+#    runner: 
+#      concurrency: 2
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_and_list_snapshots: 
+#  - 
+#    args: 
+#      detailed: true
+#      force: false
+#    context: 
+#      volumes: 
+#        size: 1
+#    runner: 
+#      concurrency: 2
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_and_list_volume: 
+#  - 
+#    args: 
+#      detailed: true
+#      size: 
+#        max: 3
+#        min: 1
+#    runner: 
+#      concurrency: 1
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_and_list_volume_backups: 
+#  - 
+#    args: 
+#      create_backup_kwargs: {}
+#      create_volume_kwargs: {}
+#      detailed: true
+#      do_delete: true
+#      size: 1
+#    runner: 
+#      concurrency: 2
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_and_upload_volume_to_image: 
+#  - 
+#    args: 
+#      container_format: bare
+#      disk_format: raw
+#      do_delete: true
+#      force: false
+#      image: 
+#        name: "{{image_name}}"
+#      size: 
+#        max: 2
+#        min: 1
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_nested_snapshots_and_attach_volume: 
+#  - 
+#    args: 
+#      nested_level: 5
+#      size: 
+#        max: 3
+#        min: 1
+#    context: 
+#      servers: 
+#        flavor: 
+#          name: "{{flavor_name}}"
+#        image: 
+#          name: "{{image_name}}"
+#    runner: 
+#      concurrency: 1
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_snapshot_and_attach_volume: 
+#  - 
+#    args: 
+#      size: 
+#        max: 3
+#        min: 1
+#      volume_type: false
+#    context: 
+#      servers: 
+#        flavor: 
+#          name: "{{flavor_name}}"
+#        image: 
+#          name: "{{image_name}}"
+#    runner: 
+#      concurrency: 2
+#      times: 4
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_volume_and_clone: 
+#  - 
+#    args: 
+#      nested_level: 3
+#      size: 
+#        max: 3
+#        min: 1
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.create_volume_from_snapshot: 
+#  - 
+#    args: 
+#      do_delete: true
+#    context: 
+#      volumes: 
+#        size: 1
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.list_volumes: 
+#  - 
+#    args: 
+#      detailed: true
+#    runner: 
+#      concurrency: 1
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#CinderVolumes.modify_volume_metadata: 
+#  - 
+#    args: {}
+#    context: 
+#      volumes: 
+#        size: 1
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#GlanceImages.create_and_delete_image: 
+#  - 
+#    args: 
+#      container_format: bare
+#      disk_format: qcow2
+#      image_location: "http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img"
+#    runner: 
+#      concurrency: 2
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#GlanceImages.create_and_list_image: 
+#  - 
+#    args: 
+#      container_format: bare
+#      disk_format: qcow2
+#      image_location: "http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img"
+#    runner: 
+#      concurrency: 1
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+GlanceImages.create_image_and_boot_instances: 
+  - 
+    args: 
+      container_format: bare
+      disk_format: qcow2
+      flavor: 
+        name: "{{flavor_name}}"
+      image_location: "http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+      number_instances: 2
+    runner: 
+      concurrency: 2
+      times: 2
+      type: constant
+    sla: 
+      failure_rate: 
+        max: 0
+#GlanceImages.list_images: 
+#  - 
+#    runner: 
+#      concurrency: 1
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronNetworks.create_and_delete_networks: 
+#  - 
+#    args: 
+#      network_create_args: {}
+#    context: 
+#      quotas: 
+#        neutron: 
+#          network: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronNetworks.create_and_delete_ports: 
+#  - 
+#    args: 
+#      network_create_args: {}
+#      port_create_args: {}
+#      ports_per_network: 10
+#    context: 
+#      network: {}
+#      quotas: 
+#        neutron: 
+#          network: -1
+#          port: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronNetworks.create_and_delete_routers: 
+#  - 
+#    args: 
+#      network_create_args: {}
+#      router_create_args: {}
+#      subnet_cidr_start: 1.1.0.0/30
+#      subnet_create_args: {}
+#      subnets_per_network: 2
+#    context: 
+#      network: {}
+#      quotas: 
+#        neutron: 
+#          network: -1
+#          router: -1
+#          subnet: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronNetworks.create_and_delete_subnets: 
+#  - 
+#    args: 
+#      network_create_args: {}
+#      subnet_cidr_start: 1.1.0.0/30
+#      subnet_create_args: {}
+#      subnets_per_network: 2
+#    context: 
+#      network: {}
+#      quotas: 
+#        neutron: 
+#          network: -1
+#          subnet: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronNetworks.create_and_update_networks: 
+#  - 
+#    args: 
+#      network_create_args: {}
+#      network_update_args: 
+#        admin_state_up: false
+#        name: _updated
+#    context: 
+#      quotas: 
+#        neutron: 
+#          network: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronNetworks.create_and_update_ports: 
+#  - 
+#    args: 
+#      network_create_args: {}
+#      port_create_args: {}
+#      port_update_args: 
+#        admin_state_up: false
+#        device_id: dummy_id
+#        device_owner: dummy_owner
+#        name: _port_updated
+#      ports_per_network: 5
+#    context: 
+#      network: {}
+#      quotas: 
+#        neutron: 
+#          network: -1
+#          port: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronNetworks.create_and_update_routers: 
+#  - 
+#    args: 
+#      network_create_args: {}
+#      router_create_args: {}
+#      router_update_args: 
+#        admin_state_up: false
+#        name: _router_updated
+#      subnet_cidr_start: 1.1.0.0/30
+#      subnet_create_args: {}
+#      subnets_per_network: 2
+#    context: 
+#      network: {}
+#      quotas: 
+#        neutron: 
+#          network: -1
+#          router: -1
+#          subnet: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronNetworks.create_and_update_subnets: 
+#  - 
+#    args: 
+#      network_create_args: {}
+#      subnet_cidr_start: 1.4.0.0/16
+#      subnet_create_args: {}
+#      subnet_update_args: 
+#        enable_dhcp: false
+#        name: _subnet_updated
+#      subnets_per_network: 2
+#    context: 
+#      network: {}
+#      quotas: 
+#        neutron: 
+#          network: -1
+#          subnet: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronSecurityGroup.create_and_delete_security_groups: 
+#  - 
+#    args: 
+#      security_group_create_args: {}
+#    context: 
+#      quotas: 
+#        neutron: 
+#          security_group: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NeutronSecurityGroup.create_and_update_security_groups: 
+#  - 
+#    args: 
+#      security_group_create_args: {}
+#      security_group_update_args: {}
+#    context: 
+#      quotas: 
+#        neutron: 
+#          security_group: -1
+#    runner: 
+#      concurrency: 3
+#      times: 9
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaKeypair.boot_and_delete_server_with_keypair: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#    context: 
+#      existing_network: {}
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaKeypair.create_and_delete_keypair: 
+#  - 
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+##NovaSecGroup.create_and_update_secgroups: 
+##  - 
+##    args: 
+##      security_group_count: 2
+##    runner: 
+##      concurrency: 2
+##      times: 4
+##      type: constant
+##    sla: 
+##      failure_rate: 
+##        max: 0
+#NovaServers.boot_and_bounce_server: 
+#  - 
+#    args: 
+#      actions: 
+#        - 
+#          hard_reboot: 1
+#        - 
+#          soft_reboot: 1
+#        - 
+#          stop_start: 1
+#        - 
+#          rescue_unrescue: 1
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      force_delete: false
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.boot_and_delete_multiple_servers: 
+#  - 
+#    args: 
+#      count: 5
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 1
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.boot_and_delete_server: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.boot_and_get_console_output: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.boot_and_list_server: 
+#  - 
+#    args: 
+#      detailed: true
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.boot_and_migrate_server: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.boot_and_rebuild_server: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      from_image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#      to_image: 
+#        name: "{{image_name}}"
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.boot_and_show_server: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.boot_and_update_server: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.boot_lock_unlock_and_delete: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 5
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+##NovaServers.boot_server_attach_created_volume_and_resize: 
+##  - 
+##    args: 
+##      boot_server_kwargs: {}
+##      confirm: true
+##      create_volume_kwargs: {}
+##      do_delete: true
+##      flavor: 
+##        name: "{{flavor_name}}"
+##      force_delete: false
+##      image: 
+##        name: "{{image_name}}"
+##      to_flavor: 
+##        name: "{{resize_flavor_name}}"
+##      volume_size: 1
+##    runner: 
+##      concurrency: 2
+##      times: 5
+##      type: constant
+##    sla: 
+##      failure_rate: 
+##        max: 0
+##NovaServers.boot_server_from_volume: 
+##  - 
+##    args: 
+##      flavor: 
+##        name: "{{flavor_name}}"
+##      image: 
+##        name: "{{image_name}}"
+##      nics: 
+##        - 
+##          net-id: "{{network_id}}"
+##      volume_size: 10
+##      volume_type: "{{volume_type}}"
+##    runner: 
+##      concurrency: 2
+##      times: 5
+##      type: constant
+##    sla: 
+##      failure_rate: 
+##        max: 0
+##NovaServers.boot_server_from_volume_and_delete: 
+##  - 
+##    args: 
+##      flavor: 
+##        name: "{{flavor_name}}"
+##      force_delete: false
+##      image: 
+##        name: "{{image_name}}"
+##      nics: 
+##        - 
+##          net-id: "{{network_id}}"
+##      volume_size: 10
+##      volume_type: "{{volume_type}}"
+##    runner: 
+##      concurrency: 2
+##      times: 5
+##      type: constant
+##    sla: 
+##      failure_rate: 
+##        max: 0
+##NovaServers.boot_server_from_volume_and_resize: 
+##  - 
+##    args: 
+##      boot_server_kwargs: {}
+##      confirm: true
+##      create_volume_kwargs: {}
+##      do_delete: true
+##      flavor: 
+##        name: "{{flavor_name}}"
+##      force_delete: false
+##      image: 
+##        name: "{{image_name}}"
+##      to_flavor: 
+##        name: "{{resize_flavor_name}}"
+##      volume_size: 1
+##    runner: 
+##      concurrency: 2
+##      times: 5
+##      type: constant
+##    sla: 
+##      failure_rate: 
+##        max: 0
+##NovaServers.boot_server_from_volume_snapshot: 
+##  - 
+##    args: 
+##      flavor: 
+##        name: "{{flavor_name}}"
+##      image: 
+##        name: "{{image_name}}"
+##      nics: 
+##        - 
+##          net-id: "{{network_id}}"
+##      volume_size: 10
+##      volume_type: "{{volume_type}}"
+##    runner: 
+##      concurrency: 2
+##      times: 5
+##      type: constant
+##    sla: 
+##      failure_rate: 
+##        max: 0
+#NovaServers.pause_and_unpause_server: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      force_delete: false
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.resize_server: 
+#  - 
+#    args: 
+#      confirm: true
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      force_delete: false
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#      to_flavor: 
+#        name: "{{resize_flavor_name}}"
+#    runner: 
+#      concurrency: 3
+#      times: 3
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+##NovaServers.shelve_and_unshelve_server: 
+##  - 
+##    args: 
+##      flavor: 
+##        name: "{{flavor_name}}"
+##      force_delete: false
+##      image: 
+##        name: "{{image_name}}"
+##      nics: 
+##        - 
+##          net-id: "{{network_id}}"
+##    runner: 
+##      concurrency: 2
+##      times: 5
+##      type: constant
+##    sla: 
+##      failure_rate: 
+##        max: 0
+#NovaServers.snapshot_server: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      force_delete: false
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
+#NovaServers.suspend_and_resume_server: 
+#  - 
+#    args: 
+#      flavor: 
+#        name: "{{flavor_name}}"
+#      force_delete: false
+#      image: 
+#        name: "{{image_name}}"
+#      nics: 
+#        - 
+#          net-id: "{{network_id}}"
+#    runner: 
+#      concurrency: 2
+#      times: 2
+#      type: constant
+#    sla: 
+#      failure_rate: 
+#        max: 0
